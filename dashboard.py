@@ -463,7 +463,15 @@ def update_price_chart(n_clicks, time_range):
                 mode='lines',
                 name='BTC Price',
                 line=dict(color='#f7931a', width=3),
-                hovertemplate='<b>Date</b>: %{x}<br><b>Price</b>: $%{y:,.2f}<extra></extra>'
+                hovertemplate='<div style="background-color: white; color: black; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">' +
+                            '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                            '<b>💰 Price</b>: $%{y:,.2f}<br>' +
+                            '<b>📊 Change</b>: %{customdata[0]:+.2f}%<br>' +
+                            '<b>📈 Volume</b>: %{customdata[1]:,.0f}<extra></extra></div>',
+                customdata=np.column_stack((
+                    filtered_data['returns'] * 100,
+                    filtered_data['volume']
+                ))
             ),
             row=1, col=1
         )
@@ -477,7 +485,9 @@ def update_price_chart(n_clicks, time_range):
                     mode='lines',
                     name='SMA 20',
                     line=dict(color='#00d4ff', width=2),
-                    hovertemplate='<b>SMA 20</b>: $%{y:,.2f}<extra></extra>'
+                    hovertemplate='<div style="background-color: white; color: black; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">' +
+                                '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                                '<b>📊 SMA 20</b>: $%{y:,.2f}<extra></extra></div>'
                 ),
                 row=1, col=1
             )
@@ -490,7 +500,9 @@ def update_price_chart(n_clicks, time_range):
                     mode='lines',
                     name='SMA 50',
                     line=dict(color='#ff6b35', width=2),
-                    hovertemplate='<b>SMA 50</b>: $%{y:,.2f}<extra></extra>'
+                    hovertemplate='<div style="background-color: white; color: black; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">' +
+                                '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                                '<b>📊 SMA 50</b>: $%{y:,.2f}<extra></extra></div>'
                 ),
                 row=1, col=1
             )
@@ -503,7 +515,9 @@ def update_price_chart(n_clicks, time_range):
                     mode='lines',
                     name='SMA 200',
                     line=dict(color='#ff4757', width=2),
-                    hovertemplate='<b>SMA 200</b>: $%{y:,.2f}<extra></extra>'
+                    hovertemplate='<div style="background-color: white; color: black; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">' +
+                                '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                                '<b>📊 SMA 200</b>: $%{y:,.2f}<extra></extra></div>'
                 ),
                 row=1, col=1
             )
@@ -518,7 +532,9 @@ def update_price_chart(n_clicks, time_range):
                     name='BB Upper',
                     line=dict(color='rgba(255,255,255,0.5)', width=1, dash='dash'),
                     fill=None,
-                    hovertemplate='<b>BB Upper</b>: $%{y:,.2f}<extra></extra>'
+                    hovertemplate='<div style="background-color: white; color: black; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">' +
+                                '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                                '<b>📊 BB Upper</b>: $%{y:,.2f}<extra></extra></div>'
                 ),
                 row=1, col=1
             )
@@ -532,7 +548,9 @@ def update_price_chart(n_clicks, time_range):
                     line=dict(color='rgba(255,255,255,0.5)', width=1, dash='dash'),
                     fill='tonexty',
                     fillcolor='rgba(255,255,255,0.1)',
-                    hovertemplate='<b>BB Lower</b>: $%{y:,.2f}<extra></extra>'
+                    hovertemplate='<div style="background-color: white; color: black; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">' +
+                                '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                                '<b>📊 BB Lower</b>: $%{y:,.2f}<extra></extra></div>'
                 ),
                 row=1, col=1
             )
@@ -548,7 +566,11 @@ def update_price_chart(n_clicks, time_range):
                 name='Volume',
                 marker_color=colors,
                 opacity=0.7,
-                hovertemplate='<b>Volume</b>: %{y:,.0f}<extra></extra>'
+                hovertemplate='<div style="background-color: white; color: black; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">' +
+                            '<b>📅 Date</b>: %{x|%B %d, %Y}<br>' +
+                            '<b>📊 Volume</b>: %{y:,.0f}<br>' +
+                            '<b>💰 Price</b>: $%{customdata:,.2f}<extra></extra></div>',
+                customdata=filtered_data['price']
             ),
             row=2, col=1
         )
@@ -560,7 +582,7 @@ def update_price_chart(n_clicks, time_range):
             yaxis_title="Price (USD)",
             height=600,
             showlegend=True,
-            hovermode='x unified',
+            hovermode='closest',
             template='plotly_dark',
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
